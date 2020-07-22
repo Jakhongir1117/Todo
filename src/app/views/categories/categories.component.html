@@ -1,13 +1,20 @@
-<div class="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
-  <div class="logo"><a href="http://www.creative-tim.com" class="simple-text logo-normal">
-    Creative Tim
-  </a></div>
-  <div class="sidebar-wrapper">
-    <ul class="nav">
-      <li class="nav-item  ">
-        <a class="nav-link" *ngFor="let category of categories" (click)="showTasksByCategory(category)">
-          <p>{{category.title}}</p>
-        </a>
-    </ul>
+<div class="sidebar" data-background-color="whtie" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
+  <div class="logo">
+    <a class="simple-text logo-normal" herf="http://www.creative-tim.com">
+      Creative Tim
+    </a>
   </div>
-</div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li (click)="showTasksByCategory(category)"
+        *ngFor="let category of categories" class="nav-item"
+
+        >
+          <a class="nav-link">
+            <p>{{category.title}}</p>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
