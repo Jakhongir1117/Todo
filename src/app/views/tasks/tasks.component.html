@@ -2,7 +2,7 @@
   <div class="card-header card-header-warning">
     <h4 class="card-title">Task list</h4>
   </div>
-  <div class="card-body table-responsive">
+  <div class="card-body table-responsive" *ngIf="tasks.length > 0">
 
     <table [dataSource]="dataSource" mat-table matSort>
 
@@ -38,7 +38,7 @@
       <!-- completed date -->
       <ng-container matColumnDef="date">
         <th *matHeaderCellDef mat-header-cell mat-sort-header> Date</th>
-        <td class="col-date" *matCellDef="let task" [ngClass]="{'completed': task.completed}" mat-cell>
+        <td class="col-date" *matCellDef="let task" [ngClass]="{'completed': task.completed, 'no-value': task.date == null}" mat-cell>
 
           {{task.date ? (task.date | date: "short") : "No date"}}
 
@@ -49,7 +49,7 @@
       <!-- priority -->
       <ng-container matColumnDef="priority">
         <th *matHeaderCellDef mat-header-cell mat-sort-header> Priority</th>
-        <td class="col-priority" *matCellDef="let task" [ngClass]="{'completed': task.completed}" mat-cell>
+        <td class="col-priority" *matCellDef="let task" [ngClass]="{'completed': task.completed, 'no-value': task.priority == null}" mat-cell>
 
           {{task.priority ? task.priority.title : "No priority"}}
 
@@ -60,7 +60,7 @@
       <!-- Category -->
       <ng-container matColumnDef="category">
         <th *matHeaderCellDef mat-header-cell mat-sort-header> Category</th>
-        <td class="col-category" *matCellDef="let task" [ngClass]="{'completed': task.completed} " mat-cell>
+        <td class="col-category" *matCellDef="let task" [ngClass]="{'completed': task.completed, 'no-value': task.category == null}" mat-cell>
 
           {{task.category ? task.category.title : "No category"}}
 
@@ -77,9 +77,11 @@
 
     </table>
 
-    <mat-paginator [pageSizeOptions]="[10,20,50,100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
 
 
   </div>
+
+  <div *ngIf="tasks.length == 0"><p class="not-found">Nothing found</p></div>
 
 </div>

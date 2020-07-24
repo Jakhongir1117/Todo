@@ -22,7 +22,7 @@ export class TestData {
 
   static priorities: Priority[] = [
     {id: 1, title: 'Low', color: '#e5e5e5'},
-    {id: 2, title: 'Middle', color: '#85D1B2'},
+    {id: 2, title: 'Normal', color: '#85D1B2'},
     {id: 3, title: 'High', color: '#F1828D'},
     {id: 4, title: 'Very urgent', color: '#F1128D'},
   ];

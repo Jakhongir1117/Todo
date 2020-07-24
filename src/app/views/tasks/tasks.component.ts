@@ -60,6 +60,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
   }
 
 
+
   private refreshTable() {
 
     this.dataSource.data = this.tasks;
