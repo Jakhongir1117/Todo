@@ -32,6 +32,11 @@ export class TasksComponent implements OnInit {
 
   private getPriorityColor(task: Task) {
 
+    // color completed tasks
+    if (task.completed) {
+      return '#F8F9FA'  // TODO make colors constant
+    }
+
     if(task.priority && task.priority.color) {
       return task.priority.color;
     }
@@ -43,6 +48,6 @@ export class TasksComponent implements OnInit {
   private refreshTable() {
 
     this.dataSource.data = this.tasks;
-  }
 
+  }
 }
