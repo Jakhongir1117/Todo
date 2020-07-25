@@ -2,7 +2,7 @@
   <div class="card-header card-header-warning">
     <h4 class="card-title">Task list</h4>
   </div>
-  <div class="card-body table-responsive" *ngIf="tasks.length > 0">
+  <div class="card-body table-responsive" *ngIf="tasks && tasks.length > 0">
 
     <table [dataSource]="dataSource" mat-table matSort>
 
@@ -27,7 +27,8 @@
       <!-- task title -->
       <ng-container matColumnDef="title">
         <th *matHeaderCellDef mat-header-cell mat-sort-header> Title</th>
-        <td class="col-title" *matCellDef="let task" [class.completed]="task.completed" mat-cell>
+        <td class="col-title pointer" *matCellDef="let task" [class.completed]="task.completed" mat-cell
+        (click)="onClickTask(task)">
 
           {{task.title}}
 
@@ -82,6 +83,6 @@
 
   </div>
 
-  <div *ngIf="tasks.length == 0"><p class="not-found">Nothing found</p></div>
+  <div *ngIf="tasks && tasks.length == 0"><p class="not-found">Nothing found</p></div>
 
 </div>

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {DataHandlerService} from '../../service/data-handler.service';
 import {Task} from '../../model/Task';
 import {MatTableDataSource} from '@angular/material/table';
@@ -20,8 +20,18 @@ export class TasksComponent implements OnInit {
   @ViewChild (MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild (MatSort, {static: false}) private sort: MatSort;
 
-  @Input()
-  private tasks: Task[];
+    tasks: Task[];
+
+  // links of component tables
+  @Input('tasks')
+  private set setTasks(tasks: Task[]) {
+    this.tasks = tasks;
+    this.fillTable();
+  }
+
+  @Output()
+  updateTask = new EventEmitter<Task>();
+
 
   constructor(private dataHandler: DataHandlerService) {
   }
@@ -39,7 +49,7 @@ export class TasksComponent implements OnInit {
   }
 
 
-  private getPriorityColor(task: Task) {
+    private getPriorityColor(task: Task) {
 
     // color of completed tasks
     if (task.completed) {
@@ -56,6 +66,10 @@ export class TasksComponent implements OnInit {
 
   // shows tasks using all current conditions (category, search, filters and etc)
   private fillTable() {
+
+    if (!this.dataSource) {
+      return;
+    }
 
     this.dataSource.data = this.tasks;
 
@@ -90,6 +104,10 @@ export class TasksComponent implements OnInit {
   private addTableObjects() {
     this.dataSource.sort = this.sort; // data sorting component
     this.dataSource.paginator = this.paginator; // update paging component
+  }
+
+  private onClickTask(task: Task) {
+    this.updateTask.emit(task);
   }
 }
 
