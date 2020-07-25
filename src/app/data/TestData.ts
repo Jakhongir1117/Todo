@@ -1,3 +1,5 @@
+// test data as arrays (replaces database tables)
+
 import {Category} from '../model/Category';
 import {Priority} from '../model/Priority';
 import {Task} from '../model/Task';
