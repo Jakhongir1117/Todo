@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DataHandlerService} from '../../service/data-handler.service';
 import {Task} from '../../model/Task';
 import {MatTableDataSource} from '@angular/material/table';
@@ -11,7 +11,7 @@ import {MatSort} from '@angular/material/sort';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit, AfterViewInit {
+export class TasksComponent implements OnInit {
 
 
   displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
@@ -20,24 +20,19 @@ export class TasksComponent implements OnInit, AfterViewInit {
   @ViewChild (MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild (MatSort, {static: false}) private sort: MatSort;
 
-  tasks: Task[];
+  @Input()
+  private tasks: Task[];
 
   constructor(private dataHandler: DataHandlerService) {
   }
 
   ngOnInit(): void {
-    this.dataHandler.tasksSubject.subscribe( tasks => this.tasks = tasks);
 
     this.dataSource = new MatTableDataSource();
-
-    this.refreshTable();
+    this.fillTable(); // fill tables with data(tasks) and all metadata
   }
 
-  ngAfterViewInit(): void {
 
-    this.addTableObjects();
-
-  }
 
   toggleTaskCompleted(task: Task) {
     task.completed = !task.completed;
@@ -46,7 +41,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
 
   private getPriorityColor(task: Task) {
 
-    // color completed tasks
+    // color of completed tasks
     if (task.completed) {
       return '#F8F9FA';  // TODO make colors constant
     }
@@ -59,18 +54,19 @@ export class TasksComponent implements OnInit, AfterViewInit {
 
   }
 
-
-
-  private refreshTable() {
+  // shows tasks using all current conditions (category, search, filters and etc)
+  private fillTable() {
 
     this.dataSource.data = this.tasks;
 
     this.addTableObjects();
 
 
+    // when when we receive new data
+    // so that we can sort by columns
     this.dataSource.sortingDataAccessor = (task, colName) => {
 
-
+    // by which fields to sort for each column
       switch (colName) {
         case  'priority' : {
           return task.priority ? task.priority.id : null;
@@ -92,8 +88,8 @@ export class TasksComponent implements OnInit, AfterViewInit {
   }
 
   private addTableObjects() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort; // data sorting component
+    this.dataSource.paginator = this.paginator; // update paging component
   }
 }
 
