@@ -4,6 +4,8 @@ import {Task} from '../../model/Task';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({
@@ -20,8 +22,6 @@ export class TasksComponent implements OnInit {
   @ViewChild (MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild (MatSort, {static: false}) private sort: MatSort;
 
-    tasks: Task[];
-
   // links of component tables
   @Input('tasks')
   private set setTasks(tasks: Task[]) {
@@ -31,9 +31,14 @@ export class TasksComponent implements OnInit {
 
   @Output()
   updateTask = new EventEmitter<Task>();
+  tasks: Task[];
 
 
-  constructor(private dataHandler: DataHandlerService) {
+  constructor(
+    private dataHandler: DataHandlerService,
+    private dialog: MatDialog,
+
+  ) {
   }
 
   ngOnInit(): void {
@@ -49,7 +54,7 @@ export class TasksComponent implements OnInit {
   }
 
 
-    private getPriorityColor(task: Task) {
+    private getPriorityColor(task: Task): string {
 
     // color of completed tasks
     if (task.completed) {
@@ -65,7 +70,7 @@ export class TasksComponent implements OnInit {
   }
 
   // shows tasks using all current conditions (category, search, filters and etc)
-  private fillTable() {
+  private fillTable(): void {
 
     if (!this.dataSource) {
       return;
@@ -101,14 +106,26 @@ export class TasksComponent implements OnInit {
 
   }
 
-  private addTableObjects() {
+  private addTableObjects(): void {
     this.dataSource.sort = this.sort; // data sorting component
     this.dataSource.paginator = this.paginator; // update paging component
   }
 
-  private onClickTask(task: Task) {
-    this.updateTask.emit(task);
+
+  // dialog editing for adding a task
+  private openEditTaskDialog(task: Task): void {
+
+    // opening a dialog box
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Task editing'], autoFocus: false});
+
+    dialogRef.afterClosed().subscribe( result => {
+        // processing of results
+
+    });
+
+
   }
+
 }
 
 
