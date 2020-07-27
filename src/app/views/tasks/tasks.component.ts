@@ -22,7 +22,7 @@ export class TasksComponent implements OnInit {
   @ViewChild (MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild (MatSort, {static: false}) private sort: MatSort;
 
-  // links of component tables
+  // current tasks to be displayed on the page
   @Input('tasks')
   private set setTasks(tasks: Task[]) {
     this.tasks = tasks;
@@ -30,7 +30,12 @@ export class TasksComponent implements OnInit {
   }
 
   @Output()
+  deleteTask = new EventEmitter<Task>();
+
+  @Output()
   updateTask = new EventEmitter<Task>();
+
+
   tasks: Task[];
 
 
@@ -121,7 +126,12 @@ export class TasksComponent implements OnInit {
     dialogRef.afterClosed().subscribe( result => {
         // processing of results
 
-        if (result as Task) {
+      if (result === 'delete') {
+        this.deleteTask.emit(task);
+        return;
+      }
+
+      if (result as Task) {
           this.updateTask.emit(task);
           return;
         }
