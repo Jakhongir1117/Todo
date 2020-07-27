@@ -27,6 +27,35 @@
   </mat-form-field>
 
 
+  <!-- dropout category list  -->
+  <mat-form-field>
+    <mat-label>Specify category</mat-label>
+
+    <mat-select [(ngModel)]="tmpCategory">
+      <mat-option [value]="null">No category</mat-option>
+      <mat-option *ngFor="let cat of categories" [value]="cat">
+        {{cat.title}}
+      </mat-option>
+    </mat-select>
+
+  </mat-form-field>
+
+
+  <!-- dropout priority list  -->
+  <mat-form-field>
+    <mat-label>Specify priority</mat-label>
+
+    <mat-select [(ngModel)]="tmpPriority">
+      <mat-option [value]="null">No priority</mat-option>
+      <mat-option *ngFor="let pri of priorities" [value]="pri">
+        {{pri.title}}
+      </mat-option>
+    </mat-select>
+
+  </mat-form-field>
+
+
+
 </mat-dialog-content>
 
 
