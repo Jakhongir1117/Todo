@@ -27,7 +27,7 @@ export class EditTaskDialogComponent implements OnInit {
 
 
     dialogTitle: string; // window title
-    private task: Task; // task for editing/creating
+    task: Task; // task for editing/creating
 
 
     tmpTitle: string;
@@ -88,6 +88,17 @@ export class EditTaskDialogComponent implements OnInit {
           this.dialogRef.close('delete'); // clicked delete
         }
       });
+    }
+
+    // clicked complete task
+    complete() {
+      this.dialogRef.close('complete');
+
+    }
+
+    //clicked activate task
+    activate() {
+      this.dialogRef.close('activate');
     }
 
 
