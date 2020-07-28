@@ -6,6 +6,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {Category} from '../../model/Category';
 
 
 @Component({
@@ -16,7 +18,7 @@ import {MatDialog} from '@angular/material/dialog';
 export class TasksComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
+  displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
   dataSource: MatTableDataSource<Task>;
 
   @ViewChild (MatPaginator, {static: false}) private paginator: MatPaginator;
@@ -34,6 +36,9 @@ export class TasksComponent implements OnInit {
 
   @Output()
   updateTask = new EventEmitter<Task>();
+
+  @Output()
+  selectCategory = new EventEmitter<Category>();
 
 
   tasks: Task[];
@@ -54,9 +59,6 @@ export class TasksComponent implements OnInit {
 
 
 
-  toggleTaskCompleted(task: Task) {
-    task.completed = !task.completed;
-  }
 
 
     private getPriorityColor(task: Task): string {
@@ -118,7 +120,7 @@ export class TasksComponent implements OnInit {
 
 
   // dialog editing for adding a task
-  private openEditTaskDialog(task: Task): void {
+     openEditTaskDialog(task: Task): void {
 
     // opening a dialog box
     const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Task editing'], autoFocus: false});
@@ -149,8 +151,38 @@ export class TasksComponent implements OnInit {
 
     });
 
-
   }
+
+
+  // delete confirmation dialog
+  openDeleteDialog(task:Task) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '500px',
+      data:
+        {dialogTitle: 'Confirm action',
+        message: `Do you really want to delete task: "${task.title}"?`
+      },
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe( result => {
+      if(result) {
+        this.deleteTask.emit(task);
+      }
+    });
+  }
+
+
+  onToggleStatus(task:Task) {
+    task.completed = !task.completed;
+    this.updateTask.emit(task);
+  }
+
+  onSelectCategory(category:Category) {
+    this.selectCategory.emit(category);
+  }
+
+
 
 }
 
