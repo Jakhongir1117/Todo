@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   tasks: Task[];
   categories: Category[];
 
-  private selectedCategory: Category = null;
+  selectedCategory: Category = null;
 
   constructor(
     private dataHandler: DataHandlerService, // facade for working with data
@@ -63,6 +63,7 @@ export class AppComponent implements OnInit {
   }
 
 
+  // deleting task
   onDeleteTask(task: Task) {
 
     this.dataHandler.deleteTask(task.id).subscribe( () => {
@@ -80,6 +81,23 @@ export class AppComponent implements OnInit {
   }
 
 
+  // deleting category
+  onDeleteCategory(category:Category) {
+    this.dataHandler.deleteCategory(category.id).subscribe( cat => {
+        this.selectedCategory = null;
+        this.onSelectCategory(this.selectedCategory);
+    });
+
+  }
+
+
+
+  onUpdateCategory(category:Category) {
+    this.dataHandler.updateCategory(category).subscribe( () => {
+        this.onSelectCategory(this.selectedCategory);
+    });
+
+  }
 
 
 }

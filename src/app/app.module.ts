@@ -21,6 +21,7 @@ import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.c
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { TaskDatePipe } from './pipe/task-date.pipe';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { EditCategoryDialogComponent } from './dialog/edit-category-dialog/edit-category-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     TasksComponent,
     EditTaskDialogComponent,
     ConfirmDialogComponent,
-    TaskDatePipe
+    TaskDatePipe,
+    EditCategoryDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   providers: [],
   entryComponents: [
     EditTaskDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    EditCategoryDialogComponent
   ],
   bootstrap: [AppComponent]
 })
