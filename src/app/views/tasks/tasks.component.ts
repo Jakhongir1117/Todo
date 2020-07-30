@@ -8,6 +8,7 @@ import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-d
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {Category} from '../../model/Category';
+import {Priority} from '../../model/Priority';
 
 
 @Component({
@@ -24,12 +25,7 @@ export class TasksComponent implements OnInit {
   @ViewChild (MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild (MatSort, {static: false}) private sort: MatSort;
 
-  // current tasks to be displayed on the page
-  @Input('tasks')
-  private set setTasks(tasks: Task[]) {
-    this.tasks = tasks;
-    this.fillTable();
-  }
+
 
   @Output()
   deleteTask = new EventEmitter<Task>();
@@ -40,8 +36,39 @@ export class TasksComponent implements OnInit {
   @Output()
   selectCategory = new EventEmitter<Category>();
 
+  @Output()
+  filterByTitle = new EventEmitter<string>();
 
+  @Output()
+  filterByStatus = new EventEmitter<boolean>();
+
+  @Output()
+  filterByPriority = new EventEmitter<Priority>();
+
+
+
+  searchTaskText: string;
+  selectedStatusFilter: boolean = null;
+  selectedPriorityFilter: Priority = null;
+
+
+
+  priorities: Priority[];
   tasks: Task[];
+
+
+  // current tasks to be displayed on the page
+  @Input('tasks')
+  private set setTasks(tasks: Task[]) {
+    this.tasks = tasks;
+    this.fillTable();
+  }
+
+  @Input('priorities')
+  set setPriorities(priorities: Priority[]) {
+    this.priorities = priorities;
+  }
+
 
 
   constructor(
@@ -61,11 +88,11 @@ export class TasksComponent implements OnInit {
 
 
 
-    private getPriorityColor(task: Task): string {
+    getPriorityColor(task: Task): string {
 
     // color of completed tasks
     if (task.completed) {
-      return '#F8F9FA';  // TODO make colors constant
+      return '#F8F9FA';
     }
 
     if (task.priority && task.priority.color) {
@@ -180,6 +207,26 @@ export class TasksComponent implements OnInit {
 
   onSelectCategory(category:Category) {
     this.selectCategory.emit(category);
+  }
+
+  onFilterByTitle() {
+    this.filterByTitle.emit(this.searchTaskText);
+  }
+
+  onFilterByStatus(value: boolean) {
+
+    if (value !== this.selectedStatusFilter) {
+      this.selectedStatusFilter = value;
+      this.filterByStatus.emit(this.selectedStatusFilter);
+    }
+  }
+
+  onFilterByPriority(value: Priority) {
+
+    if (value !== this.selectedPriorityFilter) {
+      this.selectedPriorityFilter = value;
+      this.filterByPriority.emit(this.selectedPriorityFilter);
+    }
   }
 
 

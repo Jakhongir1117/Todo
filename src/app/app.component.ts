@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DataHandlerService} from './service/data-handler.service';
 import { Task } from './model/Task';
 import {Category} from './model/Category';
+import {Priority} from './model/Priority';
 
 
 @Component({
@@ -10,11 +11,17 @@ import {Category} from './model/Category';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
   title = 'Todo2';
   tasks: Task[];
   categories: Category[];
+  priorities: Priority[];
 
   selectedCategory: Category = null;
+
+  searchTaskText = '';
+  statusFilter: boolean;
+  priorityFilter: Priority;
 
   constructor(
     private dataHandler: DataHandlerService, // facade for working with data
@@ -24,6 +31,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     //this.dataHandler.getAllTasks().subscribe( tasks => this.tasks = tasks);
     this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
+    this.dataHandler.getAllPriorities().subscribe(priorities => this.priorities = priorities);
 
     this.onSelectCategory(null);
 
@@ -34,48 +42,22 @@ export class AppComponent implements OnInit {
 
     this.selectedCategory = category;
 
-    this.dataHandler.searchTasks(
-      this.selectedCategory,
-      null,
-      null,
-      null
-    ).subscribe( tasks=> {
-        this.tasks = tasks;
-    });
+    this.updateTasks();
+
   }
 
   //updating tasks
   onUpdateTask(task: Task) {
 
-        this.dataHandler.updateTask(task).subscribe( () => {
-
-          this.dataHandler.searchTasks(
-            this.selectedCategory,
-            null,
-            null,
-            null
-          ).subscribe( tasks => {
-            this.tasks = tasks;
-          });
-
-        });
+    this.updateTasks();
 
   }
 
 
   // deleting task
   onDeleteTask(task: Task) {
-
-    this.dataHandler.deleteTask(task.id).subscribe( () => {
-      this.dataHandler.searchTasks(
-        this.selectedCategory,
-        null,
-        null,
-        null
-      ).subscribe( tasks => {
-        this.tasks = tasks;
-      });
-
+    this.dataHandler.deleteTask(task.id).subscribe( cat => {
+        this.onSelectCategory(this.selectedCategory);
     });
 
   }
@@ -91,12 +73,40 @@ export class AppComponent implements OnInit {
   }
 
 
-
   onUpdateCategory(category:Category) {
     this.dataHandler.updateCategory(category).subscribe( () => {
-        this.onSelectCategory(this.selectedCategory);
+      this.onSelectCategory(this.selectedCategory);
     });
 
+  }
+
+
+  onSearchTasks(searchstring: string) {
+    this.searchTaskText = searchstring;
+    this.updateTasks();
+  }
+
+
+  onFilterTasksByStatus(status: boolean) {
+    this.statusFilter = status;
+    this.updateTasks();
+  }
+
+  onFilterTasksByPriority(priority: Priority) {
+    this.priorityFilter = priority;
+    this.updateTasks();
+  }
+
+
+  updateTasks() {
+    this.dataHandler.searchTasks(
+        this.selectedCategory,
+        this.searchTaskText,
+        this.statusFilter,
+        null
+    ).subscribe( (tasks:Task[]) => {
+        this.tasks = tasks;
+    });
   }
 
 

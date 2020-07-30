@@ -9,7 +9,7 @@ export class TaskDatePipe extends DatePipe implements PipeTransform {
   transform(date: Date | string, format: string = 'mediumDate'): string {
 
     if (date == null) {
-      return 'No time limit';
+      return 'No due date';
     }
 
     date = new Date(date);
