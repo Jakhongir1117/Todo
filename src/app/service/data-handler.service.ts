@@ -54,5 +54,9 @@ export class DataHandlerService {
     return this.categoryDaoArray.update(category);
   }
 
+  addTask(task: Task): Observable<Task> {
+    return this.taskDaoArray.add(task);
+  }
+
 
 }

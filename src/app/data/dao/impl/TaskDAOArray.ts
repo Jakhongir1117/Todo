@@ -4,6 +4,7 @@ import {Category} from '../../../model/Category';
 import {Task} from '../../../model/Task';
 import {Priority} from '../../../model/Priority';
 import {TestData} from '../../TestData';
+import {Test} from 'tslint';
 
 export class TaskDAOArray implements TaskDAO {
 
@@ -15,8 +16,19 @@ export class TaskDAOArray implements TaskDAO {
     return of(TestData.tasks.find(todo => todo.id === id));
   }
 
-  add(T): Observable<Task> {
-    return undefined;
+  add(task: Task): Observable<Task> {
+
+    if (task.id == null || task.id === 0) {
+      task.id = this.getLastIdTask();
+    }
+    TestData.tasks.push(task);
+
+    return of(task);
+  }
+
+  getLastIdTask(): number {
+    return Math.max.apply(Math, TestData.tasks.map(task => task.id)) + 1;
+
   }
 
   delete(id: number): Observable<Task> {

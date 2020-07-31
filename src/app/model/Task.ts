@@ -5,17 +5,17 @@ export class Task {
   id: number;
   title: string;
   completed: boolean;
-  category?: Category;
   priority?: Priority;
+  category?: Category;
   date?: Date;
 
 
-  constructor(id: number, title: string, completed: boolean, category?: Category, priority?: Priority, date?: Date) {
+  constructor(id: number, title: string, completed: boolean, priority?: Priority, category?: Category, date?: Date) {
     this.id = id;
     this.title = title;
     this.completed = completed;
-    this.category = category;
     this.priority = priority;
+    this.category = category;
     this.date = date;
   }
 }

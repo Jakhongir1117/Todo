@@ -45,6 +45,9 @@ export class TasksComponent implements OnInit {
   @Output()
   filterByPriority = new EventEmitter<Priority>();
 
+  @Output()
+  addTask = new EventEmitter<Task>();
+
 
 
   searchTaskText: string;
@@ -68,6 +71,9 @@ export class TasksComponent implements OnInit {
   set setPriorities(priorities: Priority[]) {
     this.priorities = priorities;
   }
+
+  @Input()
+  selectedCategory: Category;
 
 
 
@@ -229,6 +235,19 @@ export class TasksComponent implements OnInit {
     }
   }
 
+  openAddTaskDialog() {
+
+    const task = new Task(null, '', false, null, this.selectedCategory);
+
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Adding a task']});
+
+    dialogRef.afterClosed().subscribe( result => {
+      if (result) {
+        this.addTask.emit(task);
+      }
+    });
+
+  }
 
 
 }
