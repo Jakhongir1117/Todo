@@ -116,7 +116,7 @@
 
         <button
           mat-button class="green"
-          *ngIf="!task.completed"
+          *ngIf="!task.completed && canActivateDesactivate()"
           (click)="complete()"
 
         >
@@ -127,7 +127,7 @@
 
         <button
           mat-button class="green"
-          *ngIf="task.completed"
+          *ngIf="task.completed && canActivateDesactivate()"
           (click)="activate()"
 
         >
@@ -141,6 +141,7 @@
                 mat-button
                 class="red"
                 (click)="delete()"
+                *ngIf="canDelete()"
 
         >
           Delete task

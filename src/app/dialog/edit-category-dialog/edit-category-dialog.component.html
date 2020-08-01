@@ -52,7 +52,9 @@
 
       <button
               mat-button
-              (click)="delete()" class="red">
+              (click)="delete()" class="red"
+              *ngIf="canDelete()">
+
 
           Delete
 

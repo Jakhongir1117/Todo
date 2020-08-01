@@ -9,6 +9,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {Category} from '../../model/Category';
 import {Priority} from '../../model/Priority';
+import {OperType} from '../../dialog/OperType';
 
 
 @Component({
@@ -156,7 +157,7 @@ export class TasksComponent implements OnInit {
      openEditTaskDialog(task: Task): void {
 
     // opening a dialog box
-    const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Task editing'], autoFocus: false});
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Task editing', OperType.EDIT], autoFocus: false});
 
     dialogRef.afterClosed().subscribe( result => {
         // processing of results
@@ -239,7 +240,7 @@ export class TasksComponent implements OnInit {
 
     const task = new Task(null, '', false, null, this.selectedCategory);
 
-    const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Adding a task']});
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Adding a task', OperType.ADD]});
 
     dialogRef.afterClosed().subscribe( result => {
       if (result) {

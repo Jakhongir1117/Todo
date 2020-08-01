@@ -121,6 +121,14 @@ export class AppComponent implements OnInit {
 
   }
 
+  onAddCategory(title: string) {
+    this.dataHandler.addCategory(title).subscribe( () => this.updateCategories());
+  }
+
+  updateCategories() {
+      this.dataHandler.getAllCategories().subscribe( categories => this.categories = categories);
+  }
+
 
 }
 

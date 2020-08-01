@@ -3,6 +3,7 @@ import {DataHandlerService} from '../../service/data-handler.service';
 import {Category} from '../../model/Category';
 import {MatDialog} from '@angular/material/dialog';
 import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
+import {OperType} from '../../dialog/OperType';
 
 @Component({
   selector: 'app-categories',
@@ -14,6 +15,9 @@ export class CategoriesComponent implements OnInit {
   @Input()
   categories: Category[];
 
+  @Input()
+  selectedCategory: Category;
+
   @Output()
   selectCategory = new EventEmitter<Category>();
 
@@ -23,8 +27,10 @@ export class CategoriesComponent implements OnInit {
   @Output()
   updateCategory = new EventEmitter<Category>();
 
-  @Input()
-  selectedCategory: Category;
+  @Output()
+  addCategory = new EventEmitter<string>();
+
+
 
 
 
@@ -62,7 +68,7 @@ export class CategoriesComponent implements OnInit {
 
   openEditDialog(category: Category) {
     const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
-      data: [category.title, 'Editing category'],
+      data: [category.title, 'Editing category', OperType.EDIT],
       width: '400px'
     });
 
@@ -82,6 +88,20 @@ export class CategoriesComponent implements OnInit {
         return;
       }
 
+
+    });
+
+  }
+
+  // dialog window for adding categories
+  openAddDialog() {
+
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {data: ['', 'adding category', OperType.ADD], width: '400px'});
+
+    dialogRef.afterClosed().subscribe( result => {
+      if (result) {
+        this.addCategory.emit(result as string);
+      }
 
     });
 
