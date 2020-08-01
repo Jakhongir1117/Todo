@@ -24,6 +24,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { EditCategoryDialogComponent } from './dialog/edit-category-dialog/edit-category-dialog.component';
 import { HeaderComponent } from './views/header/header.component';
 import { StatisticsComponent } from './views/statistics/statistics.component';
+import { StatisticsCardComponent } from './views/statistics/statistics-card/statistics-card.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { StatisticsComponent } from './views/statistics/statistics.component';
     TaskDatePipe,
     EditCategoryDialogComponent,
     HeaderComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    StatisticsCardComponent
   ],
   imports: [
     BrowserModule,

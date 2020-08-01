@@ -3,6 +3,7 @@ import {DataHandlerService} from './service/data-handler.service';
 import { Task } from './model/Task';
 import {Category} from './model/Category';
 import {Priority} from './model/Priority';
+import {zip} from 'rxjs';
 
 
 @Component({
@@ -14,13 +15,24 @@ export class AppComponent implements OnInit {
 
   title = 'Todo2';
   tasks: Task[];
-  categories: Category[];
-  priorities: Priority[];
+  categories: Category[]; // all categories
+  priorities: Priority[]; // all priorities
+
+  // statistics
+  totalTasksCountInCategory: number;
+  completedCountInCategory: number;
+  uncompletedCountInCategory: number;
+  uncompletedTotalTasksCount: number;
+
+
 
   selectedCategory: Category = null;
 
+  // search
   searchTaskText = '';
   statusFilter: boolean;
+
+  // filtration
   priorityFilter: Priority;
   searchCategoryText: string;
 
@@ -44,14 +56,14 @@ export class AppComponent implements OnInit {
 
     this.selectedCategory = category;
 
-    this.updateTasks();
+    this.updateTasksAndStats();
 
   }
 
   //updating tasks
   onUpdateTask(task: Task) {
 
-    this.updateTasks();
+    this.updateTasksAndStats();
 
   }
 
@@ -59,7 +71,7 @@ export class AppComponent implements OnInit {
   // deleting task
   onDeleteTask(task: Task) {
     this.dataHandler.deleteTask(task.id).subscribe( cat => {
-        this.onSelectCategory(this.selectedCategory);
+        this.updateTasksAndStats();
     });
 
   }
@@ -117,7 +129,7 @@ export class AppComponent implements OnInit {
 
     this.dataHandler.addTask(task).subscribe( result => {
 
-      this.updateTasks();
+      this.updateTasksAndStats();
 
     });
 
@@ -131,6 +143,7 @@ export class AppComponent implements OnInit {
       this.dataHandler.getAllCategories().subscribe( categories => this.categories = categories);
   }
 
+  // search category
   onSearchCategory(title: string) {
 
     this.searchCategoryText = title;
@@ -140,6 +153,33 @@ export class AppComponent implements OnInit {
     });
 
   }
+
+
+  updateTasksAndStats() {
+
+    this.updateTasks();
+
+    this.updateStats();
+  }
+
+
+  // update statistics
+  updateStats() {
+    zip(
+        this.dataHandler.getTotalCountInCategory(this.selectedCategory),
+        this.dataHandler.getCompletedCountInCategory(this.selectedCategory),
+        this.dataHandler.getUncompletedCountInCategory(this.selectedCategory),
+        this.dataHandler.getUncompletedTotalCount())
+
+      .subscribe( array => {
+          this.totalTasksCountInCategory = array[0];
+          this.completedCountInCategory = array[1];
+          this.uncompletedCountInCategory = array[2];
+          this.uncompletedTotalTasksCount = array[3];
+      })
+  }
+
+
 
 
 }

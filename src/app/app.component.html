@@ -14,14 +14,19 @@
 
     <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 
-      <app-header></app-header>
+      <app-header
+              [categoryName]="selectedCategory ? selectedCategory.title: 'All'"></app-header>
 
     </nav>
 
     <div class="content">
       <div class="container-fluid">
 
-        <app-statistics></app-statistics>
+        <app-statistics
+                        [totalTasksInCategory]="totalTasksCountInCategory"
+                        [completeTasksInCategory]="completedCountInCategory"
+                        [uncompleteTasksInCategory]="uncompletedCountInCategory"
+        ></app-statistics>
 
         <div class="row">
 

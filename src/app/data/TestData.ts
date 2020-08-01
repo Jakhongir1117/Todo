@@ -33,7 +33,7 @@ export class TestData {
     {
       id: 1,
       title: 'Going to job',
-      completed: true,
+      completed: false,
       category: TestData.categories[7],
       priority: TestData.priorities[3],
       date: new Date('2020-07-31')

@@ -8,6 +8,7 @@ import {TaskDAOArray} from '../data/dao/impl/TaskDAOArray';
 import {CategoryDAOArray} from '../data/dao/impl/CategoryDAOArray';
 import {Priority} from '../model/Priority';
 import {PriorityDAOArray} from '../data/dao/impl/PriorityDAOArray';
+import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,27 @@ export class DataHandlerService {
   searchCategories(title: string): Observable<Category[]> {
     return this.categoryDaoArray.search(title);
   }
+
+  getCompletedCountInCategory(category: Category): Observable<number> {
+    return this.taskDaoArray.getCompletedCountInCategory(category);
+  }
+
+  getUncompletedTotalCount(): Observable<number> {
+    return this.taskDaoArray.getUncompletedCountInCategory(null);
+  }
+
+  getUncompletedCountInCategory(category: Category): Observable<number> {
+    return this.taskDaoArray.getUncompletedCountInCategory(category);
+  }
+
+  getTotalCountInCategory(category: Category): Observable<number> {
+    return this.taskDaoArray.getTotalCountInCategory(category);
+  }
+
+
+
+
+
 
 
 }
