@@ -30,12 +30,16 @@ export class CategoriesComponent implements OnInit {
   @Output()
   addCategory = new EventEmitter<string>();
 
+  @Output()
+  searchCategory = new EventEmitter<string>();
+
 
 
 
 
   indexMouseMove: number;
   showEditIconCategory: boolean;
+  searchCategoryTitle: string;
 
 
   constructor(
@@ -105,6 +109,15 @@ export class CategoriesComponent implements OnInit {
 
     });
 
+  }
+
+  search() {
+
+    if (this.searchCategoryTitle == null) {
+      return;
+    }
+
+    this.searchCategory.emit(this.searchCategoryTitle);
   }
 
 

@@ -88,7 +88,10 @@ export class TasksComponent implements OnInit {
   ngOnInit(): void {
 
     this.dataSource = new MatTableDataSource();
-    this.fillTable(); // fill tables with data(tasks) and all metadata
+
+    this.onSelectCategory(null);
+
+    // this.fillTable(); // fill tables with data(tasks) and all metadata
   }
 
 

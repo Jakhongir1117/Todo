@@ -1,4 +1,7 @@
-<div class="sidebar" data-background-color="white" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
+<div class="sidebar" data-background-color="white" data-color="purple" >
+
+  <div id="categories">
+
   <div class="logo">
 
     <span class="nav-title">Categories</span>
@@ -15,6 +18,43 @@
     <div class="sidebar-wrapper">
       <ul class="nav">
 
+
+        <!-- search category -->
+        <div class="search-category-area">
+
+          <mat-form-field class="example-full-width">
+            <input
+
+                  #inputSearchCategory
+
+                  (keydown.escape)="searchCategoryTitle = ''; search()"
+                  (keyup)="search()"
+                  [(ngModel)]="searchCategoryTitle"
+
+                  matInput
+                  maxlength="256"
+                  placeholder="Search categories"
+
+            >
+
+            <button
+                    (click)="searchCategoryTitle = ''; search()"
+                    *ngIf="inputSearchCategory.value.trim().length > 0" aria-label="Clear"
+                    class="search-category-button size25 gray"
+                    mat-button
+                    mat-icon-button
+                    matSuffix
+
+            >
+                  <mat-icon>clear</mat-icon>
+            </button>
+
+          </mat-form-field>
+
+        </div>
+
+
+
         <!-- virtual category 'All' -->
         <li class="nav-item category" (click)="showTasksByCategory(null)" [class.active]="selectedCategory === null">
 
@@ -28,9 +68,10 @@
 
 
 
-
         <!-- separator -->
         <div class="line"></div>
+
+        <div *ngIf="categories.length === 0"><p class="not-found">Nothing found</p></div>
 
         <li (click)="showTasksByCategory(category)"
         *ngFor="let category of categories; let index = index" class="nav-item pointer"
@@ -66,4 +107,8 @@
 
       </ul>
     </div>
+    <div class="sidebar-background"></div>
+
   </div>
+</div>
+

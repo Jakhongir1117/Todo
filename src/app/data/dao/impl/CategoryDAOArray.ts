@@ -48,7 +48,8 @@ export class CategoryDAOArray implements CategoryDAO {
   }
 
   search(title: string): Observable<Category[]> {
-    return undefined;
+    return of(TestData.categories.filter(cat => cat.title.toUpperCase().includes(title.toUpperCase())).
+    sort((c1, c2) => c1.title.localeCompare(c2.title)));
   }
 
   update(category: Category): Observable<Category> {
