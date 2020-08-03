@@ -2,8 +2,11 @@
   <div class="row settings">
 
 
-    <div class="col-10 text-left align-self-top">
+    <div class="col-10 text-left align-self-top position-absolute">
       <p class="navbar-brand">{{categoryName}}</p>
+
+      <p class="link navbar-brand" (click)="onToggleStat()" *ngIf="showStat">Hide statistics</p>
+      <p class="link navbar-brand" (click)="onToggleStat()" *ngIf="!showStat">Show statistics</p>
     </div>
 
 
