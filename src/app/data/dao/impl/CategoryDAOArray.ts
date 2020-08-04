@@ -3,16 +3,21 @@ import {Category} from '../../../model/Category';
 import {Observable, of} from 'rxjs';
 import {TestData} from '../../TestData';
 import {Test} from 'tslint';
+import {Priority} from '../../../model/Priority';
 
 export class CategoryDAOArray implements CategoryDAO {
+
+  static categories = TestData.categories;
+
+  get(id: number): Observable<Category> {
+    return of(CategoryDAOArray.categories.find( category => category.id === id));
+  }
 
   getAll(): Observable<Category[]> {
     return of(TestData.categories);
   }
 
-  get(id: number): Observable<Category> {
-    return undefined;
-  }
+
 
   add(category: Category): Observable<Category> {
 
