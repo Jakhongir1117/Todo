@@ -1,4 +1,4 @@
-<div class="wrapper ">
+<div class="wrapper">
 
   <app-categories
           (selectCategory)="onSelectCategory($event)"
@@ -7,8 +7,11 @@
           (addCategory)="onAddCategory($event)"
           (searchCategory)="onSearchCategory($event)"
 
+
           [selectedCategory]="selectedCategory"
           [categories]="categories"></app-categories>
+
+
 
   <div class="main-panel">
 
@@ -60,4 +63,3 @@
     </div>
   </div>
 </div>
-

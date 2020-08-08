@@ -103,9 +103,9 @@
 
         <button
 
-                (click)="$event.stopPropagation(); onFilterByStatus(null); searchTaskText = ''; onFilterByTitle()"
+                (click)="$event.stopPropagation(); onFilterByStatus(null); searchTaskText = ''; onFilterByTitle(); onFilterByPriority(null);"
 
-                *ngIf="selectedStatusFilter != null || (searchTaskText != null && searchTaskText.trim() != '') "
+                *ngIf="selectedStatusFilter != null || (searchTaskText != null && searchTaskText.trim() != '') || selectedPriorityFilter != null"
                 aria-label="Clear"
                 mat-button
 

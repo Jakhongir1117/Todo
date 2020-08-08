@@ -13,6 +13,8 @@ import {zip} from 'rxjs';
 })
 export class AppComponent implements OnInit {
 
+
+
   title = 'Todo2';
   tasks: Task[];
   categories: Category[]; // all categories
@@ -145,6 +147,9 @@ export class AppComponent implements OnInit {
   updateCategories() {
       this.dataHandler.getAllCategories().subscribe( categories => this.categories = categories);
   }
+
+
+
 
   // search category
   onSearchCategory(title: string) {

@@ -18,6 +18,7 @@ export class CategoriesComponent implements OnInit {
   @Input()
   selectedCategory: Category;
 
+
   @Output()
   selectCategory = new EventEmitter<Category>();
 

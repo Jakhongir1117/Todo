@@ -10,6 +10,7 @@
 }
 
 .box {
-  margin-left: 1025px;
+  margin-left: 987px;
+  transform: scale(1.5);
 
 }
